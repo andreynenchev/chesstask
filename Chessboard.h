@@ -41,13 +41,19 @@ class Board{
     private:
         int board[9][9];
         Position pos;
+        int next;
     public:
         Board(){
             memset(board,0,sizeof(board));
+            next=1;
+            board[1][1]=next;
+            pos = Position ('A', 1);
         }
         Board(Position a){
             memset(board,0,sizeof(board));
+            next=1;
             pos=a;
+            board[(int)pos.getLetter()-(int)'A'+1][pos.getNumber()]=next;
         }
         Position getPosition(){
             return pos;
@@ -57,6 +63,28 @@ class Board{
             if (board[(int)a.getLetter()-(int)'A'+1][a.getNumber()]>0) return false;
             return true;
         }
+        void changePosition(Position a){
+            next++;
+            board[(int)a.getLetter()-(int)'A'+1][a.getNumber()]=board[(int)pos.getLetter()-(int)'A'+1][pos.getNumber()]+1;
+            pos = a;
+        }
+        void rollBackPosition(Position a){
+            board[(int)pos.getLetter()-(int)'A'+1][pos.getNumber()]=0;
+            pos = a;
+            next--;
+        }
+        void printBoard(){
+            for (int i = 8; i >=1; i--){
+                for (int j=1; j<=8; j++){
+                    cout << setw(2) << board[j][i]<< " ";
+                }
+                cout << "\n";
+            }
+        }
+        int Next(){
+            return next;
+        }
+        
         
         
 };
